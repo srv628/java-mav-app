@@ -21,7 +21,7 @@ pipeline{
                     withCredentials([usernamePassword(credentialsId:"dockerHub",usernameVariable:"USER",passwordVariable:"PASS")]){
                     sh "docker build -t srvwin/jenkinsdocker:javamapp-1.0 ."
                     sh "echo $PASS | docker login -u $USER --password-stdin"
-                    sh "docker push srvwin/jenkinsdocker:"
+                
 
                     sh "docker push srvwin/jenkinsdocker:javamapp-1.0"
                 }
