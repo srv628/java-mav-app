@@ -6,25 +6,27 @@ pipeline{
     stages{
         stage('building the jar file'){
             steps{
-                script{echo "building the jar file"
-sh "mvn package"}
+                script{
+                    echo "building the jar file"
+                    sh "mvn package"
+                    }
  
             }
         }
-           stage('building the docker image'){
+        stage('building the docker image'){
            
             steps{
                 script{ 
-                echo "building the docker image"
-                withCredentials([usernamePassword(credentialsId:"dockerHub",usernameVariable:"USER",passwordVariable:"PASS")]
-               
-                sh "docker build -t srvwin/javamapp:1.0 . "
-                sh "echo $PASS | docker login -u $USER --password-stdin"
-                sh "docker push srvwin/javamapp:1.0"
+                    echo "building the docker image"
+                    withCredentials([usernamePassword(credentialsId:"dockerHub",usernameVariable:"USER",passwordVariable:"PASS")]){
+                    sh "docker build -t srvwin/javamapp:1.0 . "
+                    sh "echo $PASS | docker login -u $USER --password-stdin"
+                    sh "docker push srvwin/javamapp:1.0"
                 }
              
             }
         }
+        } 
            stage('deploying the image to the docker hub'){
             steps{
                 script{
