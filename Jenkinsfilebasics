@@ -19,8 +19,7 @@ stage("init"){
             steps{
                 script{
                     gv.buildJar();
-                    echo "building the jar file"
-                    sh "mvn package"
+             
                     }
  
             }
@@ -39,7 +38,7 @@ stage("init"){
            stage('deploying the image to the docker hub'){
             steps{
                 script{
-                    echo"deploying the image"
+                   gv.deployApp()
                 }
             }
         }
