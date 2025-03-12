@@ -1,46 +1,46 @@
 def gv
-pipeline{
-    agent any
-    tools{
-        maven "maven 3.9"
-    }
-    stages{
-stage("init"){
-    steps{
-        script{
-            gv = load "scriptdemo.groovy"
-        }
-    }
-    
-}
 
-        stage('building the jar file'){
-            
-            steps{
-                script{
-                    gv.buildJar();
-             
-                    }
- 
-            }
-        }
-        stage('building the docker image'){
-           
-            steps{
-                script{ 
-                    gv.buildimage()
-                  
-                }
-             
-            }
-        }
-        } 
-           stage('deploying the image to the docker hub'){
-            steps{
-                script{
-                   gv.deployApp()
+pipeline {
+    agent any
+    tools {
+        maven 'Maven 3.9' // Ensure the name matches exactly as configured in Jenkins
+    }
+    stages {
+        stage('init') {
+            steps {
+                script {
+                    gv = load 'scriptdemo.groovy'
                 }
             }
         }
-    
+        stage('building the jar file') {
+            steps {
+                script {
+                    gv.buildJar()
+                }
+            }
+        }
+        stage('building the docker image') {
+            steps {
+                script {
+                    gv.buildImage() // Ensure the method name is correct (buildImage instead of buildimage)
+                }
+            }
+        }
+        stage('deploying the image to the docker hub') {
+            steps {
+                script {
+                    gv.deployApp()
+                }
+            }
+        }
+    }
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed. Please check the logs.'
+        }
+    }
 }
