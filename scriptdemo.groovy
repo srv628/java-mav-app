@@ -11,7 +11,7 @@ def buildImage(){
                 
 
                     sh "docker push srvwin/jenkinsdocker:javamapp-2.0"
-}
+}}
 def deployApp(){
     echo "deploying the code"
 
