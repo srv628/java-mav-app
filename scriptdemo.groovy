@@ -3,7 +3,7 @@ def buildJar(){
                     sh "mvn package"
 
 }
-def buildimage(){
+def buildImage(){
       echo "building the docker image"
                     withCredentials([usernamePassword(credentialsId:"dockerHub",usernameVariable:"USER",passwordVariable:"PASS")]){
                     sh "docker build -t srvwin/jenkinsdocker:javamapp-2.0 ."
