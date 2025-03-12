@@ -1,99 +1,28 @@
-#!/usr/bin/env groovy
-def gv
-
-pipeline {
+pipeline{
     agent any
-    // parameters{
-
-    // }
-    // environment{
-    //     NEW_VERSION ="1.1"
-    //     SERVER_CREDENTIALS = credentials('user-credentials')
-    // }
-
-// tools{
-//     maven:"maven:1.0"
-// }
-parameters{
-    // string(name:"VERSION",defaultValue:"",description:"version to deploy on prod")
-    choice(name:"VERSION",choices:["1.1.0","1.2.0"],description:"")
-    booleanParam(name:"executeTests", defaultValue:true, description:"")
-}
-
-    stages {
-        stage("init"){
+    tools{
+        maven : "maven 3.9"
+    }
+    stages{
+        stage('building the jar file'){
             steps{
-                script{
-                      gv = load "scriptdemo.groovy"
-                }
-                   
-            }
-       
-
-        }
-        stage('build') {
-            steps {
-                script {
-                    gv.buildApp()
-                    // echo "Building the application..."
-                    // echo "building version ${NEW_VERSION}"
-                } 
+echo "building the jar file"
+sh "mvn package" 
             }
         }
-        stage('test') {
-            when{
-                expression{
-                    params.executeTests 
-                }
-            }
-            // when{
-            //     expression{
-            //         BRANCH_NAME == "dev" || BRANCH_NAME == "master"
-            //     }
-            // }
-            steps {
-                script {
-                    gv.testApp()
-                }
+           stage('building the docker image'){
+            withCredentials([usernamePassword(credentialsId:"dockerHub",usernameVariable:"USER",passwordVariable:"PASS")]
+            steps{
+                echo "building the docker image"
+                sh "docker build -t srvwin/javamapp:1.0 . "
+                sh "echo $PASS | docker login -u $USER --password-stdin"
+                sh "docker push srvwin/javamapp:1.0"
             }
         }
-        stage('deploy') {
-
-input{
-    message "select the environment to deploy"
-    ok "Done"
-    parameters{
-        choice(name:"ENV",choices:["prod","staging"],description:"")
-    }
-}
-            steps {
-                script {
-                    // echo "Deploying the application..."
-                    gv.deployApp()
-                    echo "deploying to ${ENV}"
-                    
-
-
-                    // withCredentials([
-                    //     usernamePassword(credentials:"user-credentials",usernameVariable:USER, passwordVariable:PWD)
-                    // ]){
-                    //     sh "some script ${USER} ${PWD}"
-                    // }
-                    // echo "reading the ${SERVER_CREDENTIALS}"
-                    // sh "${SERVER_CREDENTIALS}"
-                }
+           stage('deploying the image to the docker hub'){
+            steps{
+                
             }
         }
     }
-    // post {
-    //     success{
-
-    //     }
-    //     failure{
-
-    //     }
-    // }
 }
-
-
-// when the credentials are there only on one stage, there you can skip adding the credentials in the environment and instead use the withCredential inside that particular stage.
