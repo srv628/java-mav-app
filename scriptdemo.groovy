@@ -14,6 +14,6 @@ def buildImage(){
 }
 def deployApp(){
     echo "deploying the code"
-    echo " deploying versio ${params.VERSION}"
+
 }
 return this
