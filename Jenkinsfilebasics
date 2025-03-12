@@ -24,7 +24,7 @@ parameters{
         stage("init"){
             steps{
                 script{
-                      gv = load("scriptdemo.groovy")
+                      gv = load "scriptdemo.groovy"
                 }
                    
             }
@@ -34,7 +34,7 @@ parameters{
         stage('build') {
             steps {
                 script {
-                    gv.buildApp
+                    gv.buildApp()
                     // echo "Building the application..."
                     // echo "building version ${NEW_VERSION}"
                 } 
@@ -53,7 +53,7 @@ parameters{
             // }
             steps {
                 script {
-                    gv.testApp
+                    gv.testApp()
                 }
             }
         }
