@@ -1,8 +1,16 @@
-def buildApp(){
-    echo "building the code"
+def buildJar(){
+     echo "building the jar file"
+                    sh "mvn package"
+
 }
-def testApp(){
-    echo "testing the code"
+def buildimage(){
+      echo "building the docker image"
+                    withCredentials([usernamePassword(credentialsId:"dockerHub",usernameVariable:"USER",passwordVariable:"PASS")]){
+                    sh "docker build -t srvwin/jenkinsdocker:javamapp-1.0 ."
+                    sh "echo $PASS | docker login -u $USER --password-stdin"
+                
+
+                    sh "docker push srvwin/jenkinsdocker:javamapp-1.0"
 }
 def deployApp(){
     echo "deploying the code"
