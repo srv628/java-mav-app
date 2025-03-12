@@ -24,7 +24,7 @@ parameters{
             steps {
                 script {
                     echo "Building the application..."
-                    echo "building version ${NEW_VERSION}"
+                    // echo "building version ${NEW_VERSION}"
                 } 
             }
         }
