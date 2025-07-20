@@ -3,7 +3,7 @@ def gv
 pipeline {
     agent any
     tools {
-        maven 'maven 3.9' // Ensure the name matches exactly as configured in Jenkins
+        maven 'maven_3.9' // Ensure the name matches exactly as configured in Jenkins
     }
     stages {
         stage('init') {
