@@ -16,14 +16,14 @@ pipeline {
         stage('building the jar file') {
             steps {
                 script {
-                    gv.buildJar()
+                    buildJar()
                 }
             }
         }
         stage('building the docker image') {
             steps {
                 script {
-                    gv.buildImage() // Ensure the method name is correct (buildImage instead of buildimage)
+                    buildImage() // Ensure the method name is correct (buildImage instead of buildimage)
                 }
             }
         }
