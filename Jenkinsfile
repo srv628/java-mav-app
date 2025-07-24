@@ -10,17 +10,6 @@ pipeline {
 
 
     stages {
-     stage('Verify Library') {
-            steps {
-                script {
-                    // Print library structure
-                    sh """
-                        echo "Checking library structure:"
-                        ls -lR ${libraryResource('')}
-                    """
-                }
-            }
-        }
 
         stage('init') {
             steps {
