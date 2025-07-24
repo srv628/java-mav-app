@@ -7,19 +7,21 @@ pipeline {
     tools {
         maven 'maven_3.9' // Ensure the name matches exactly as configured in Jenkins
     }
-    stage('Verify Library') {
-        steps {
-            script {
-                // Print library structure
-                sh """
-                    echo "Checking library structure:"
-                    ls -lR ${libraryResource('')}
-                """
-            }
-        }
-    }
+
 
     stages {
+     stage('Verify Library') {
+            steps {
+                script {
+                    // Print library structure
+                    sh """
+                        echo "Checking library structure:"
+                        ls -lR ${libraryResource('')}
+                    """
+                }
+            }
+        }
+
         stage('init') {
             steps {
                 script {
