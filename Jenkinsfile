@@ -1,5 +1,5 @@
 #!/bin/env groovy
-@Library('jenkins-shared-lib') // Ensure the library is correctly configured in Jenkins
+@Library('jenkins-shared-lib') _ // Ensure the library is correctly configured in Jenkins
 def gv
 
 pipeline {
