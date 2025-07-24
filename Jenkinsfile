@@ -1,38 +1,48 @@
-def gv
+// #!/bin/env groovy
+// @Library('jenkins-shared-lib') // Ensure the library is correctly configured in Jenkins
+// def gv
 
 pipeline {
     agent any
+    tools {
+        maven 'maven_3.9' // Ensure the name matches exactly as configured in Jenkins
+    }
     stages {
-        stage("init") {
+        stage('init') {
             steps {
                 script {
-                    gv = load "script.groovy"
+                    gv = load 'script.groovy'
                 }
             }
         }
-        stage("build jar") {
+        stage('building the jar file') {
             steps {
                 script {
-                    echo "building jar"
-                    //gv.buildJar()
+                    gv.buildJar()
                 }
             }
         }
-        stage("build image") {
+        stage('building the docker image') {
             steps {
                 script {
-                    echo "building image"
-                    //gv.buildImage()
+                    gv.buildImage() // Ensure the method name is correct (buildImage instead of buildimage)
                 }
             }
         }
-        stage("deploy") {
+        stage('deploying the image to the docker hub') {
             steps {
                 script {
-                    echo "deploying"
-                    //gv.deployApp()
+                    gv.deployApp()
                 }
             }
         }
-    }   
+    }
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed. Please check the logs.'
+        }
+    }
 }

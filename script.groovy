@@ -1,19 +1,20 @@
-def buildJar() {
-    echo "building the application..."
-    sh 'mvn package'
-} 
+def buildJar(){
+     echo "building the jar file"
+                    sh "mvn package"
 
-def buildImage() {
-    echo "building the docker image..."
-    withCredentials([usernamePassword(credentialsId: 'docker-hub-repo', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-        sh 'docker build -t nanajanashia/demo-app:jma-2.0 .'
-        sh "echo $PASS | docker login -u $USER --password-stdin"
-        sh 'docker push nanajanashia/demo-app:jma-2.0'
-    }
-} 
+}
+def buildImage(){
+      echo "building the docker image"
+                    withCredentials([usernamePassword(credentialsId:"dockerhub-cred",usernameVariable:"USER",passwordVariable:"PASS")]){
+                    sh "docker build -t srvwin/dockerinitial:javamapp-2.0 ."
 
-def deployApp() {
-    echo 'deploying the application...'
-} 
+                    sh "echo $PASS | docker login -u $USER --password-stdin"
+                
 
+                    sh "docker push  srvwin/dockerinitial:javamapp-2.0"
+}}
+def deployApp(){
+    echo "deploying the code"
+
+}
 return this
