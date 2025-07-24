@@ -1,6 +1,6 @@
-// #!/bin/env groovy
-// @Library('jenkins-shared-lib') // Ensure the library is correctly configured in Jenkins
-// def gv
+#!/bin/env groovy
+@Library('jenkins-shared-lib') // Ensure the library is correctly configured in Jenkins
+def gv
 
 pipeline {
     agent any
@@ -18,14 +18,14 @@ pipeline {
         stage('building the jar file') {
             steps {
                 script {
-                    gv.buildJar()
+                    buildJar()
                 }
             }
         }
         stage('building the docker image') {
             steps {
                 script {
-                    gv.buildImage() // Ensure the method name is correct (buildImage instead of buildimage)
+                    buildImage() // Ensure the method name is correct (buildImage instead of buildimage)
                 }
             }
         }
