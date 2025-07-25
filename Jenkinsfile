@@ -28,7 +28,7 @@ pipeline {
         stage('building the docker image') {
             steps {
                 script {
-                    buildImage() // Ensure the method name is correct (buildImage instead of buildimage)
+                    buildImage "srvwin/dockerinitial:javamapp-2.0" // Ensure the method name is correct (buildImage instead of buildimage)
                 }
             }
         }
