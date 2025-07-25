@@ -7,6 +7,9 @@ pipeline {
     tools {
         maven 'maven_3.9' // Ensure the name matches exactly as configured in Jenkins
     }
+    environment {
+    IMAGE_NAME = 'srvwin/dockerinitial:javamapp-3.0' // Define the image name as an environment variable}
+    }
 
 
     stages {
@@ -28,14 +31,14 @@ pipeline {
         stage('building the docker image') {
             steps {
                 script {
-                    buildImage "srvwin/dockerinitial:javamapp-2.0" // Ensure the method name is correct (buildImage instead of buildimage)
+                    buildImage(env.IMAGE_NAME) // Ensure the method name is correct (buildImage instead of buildimage)
                 }
             }
         }
         stage('deploying the image to the docker hub') {
             steps {
                 script {
-                    gv.deployApp()
+                    deployImage(env.IMAGE_NAME)
                 }
             }
         }
