@@ -36,7 +36,7 @@ pipeline {
         stage('deploying the image to the docker hub') {
             steps {
                 script {
-                    def dockerComposeRunCommand = "docker-compose -f docker-compose.yml up -d"
+                    def dockerComposeRunCommand = "docker-compose -f docker-compose.yaml up -d"
                     echo "deploying the code"
 
                     sshagent(['ec2-node-react']) {
