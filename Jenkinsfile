@@ -1,19 +1,17 @@
-#!/bin/env groovy
-@Library('jenkins-shared-lib') _ // Ensure the library is correctly configured in Jenkins
+#!/usr/bin/env groovy
+@Library('jenkins-shared-lib') _
 def gv
 
 pipeline {
     agent any
     tools {
-        maven 'maven_3.9' // Ensure the name matches exactly as configured in Jenkins
+        maven 'maven_3.9'
     }
     environment {
-    IMAGE_NAME = 'srvwin/dockerinitial:javamapp-3.0' // Define the image name as an environment variable}
+        IMAGE_NAME = 'srvwin/dockerinitial:javamapp-3.0' // FIXED: Removed extra brace
     }
 
-
     stages {
-
         stage('init') {
             steps {
                 script {
@@ -31,23 +29,20 @@ pipeline {
         stage('building the docker image') {
             steps {
                 script {
-                    buildImage(env.IMAGE_NAME) // Ensure the method name is correct (buildImage instead of buildimage)
+                    buildImage(env.IMAGE_NAME)
                 }
             }
         }
         stage('deploying the image to the docker hub') {
             steps {
                 script {
-//                     deployImage(env.IMAGE_NAME)
-    def dockerComposeRunCommand = "docker-compose -f docker-compose.yaml up -d"
-    echo "deploying the code"
+                    def dockerComposeRunCommand = "docker-compose -f docker-compose.yml up -d"
+                    echo "deploying the code"
 
-    sshagent(['ec2-node-react']) {
-
-
-        sh "scp docker-compose.yml ec2-user@13.201.186.86:/home/ec2-user/"
-        sh "ssh -o StrictHostKeyChecking=no ec2-user@13.201.186.86 ${dockerComposeRunCommand}"
-
+                    sshagent(['ec2-node-react']) {
+                        sh "scp docker-compose.yml ec2-user@13.201.186.86:/home/ec2-user/"
+                        sh "ssh -o StrictHostKeyChecking=no ec2-user@13.201.186.86 ${dockerComposeRunCommand}"
+                    }
                 }
             }
         }
