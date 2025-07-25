@@ -40,7 +40,7 @@ pipeline {
                     echo "deploying the code"
 
                     sshagent(['ec2-node-react']) {
-                        sh "scp docker-compose.yml ec2-user@13.201.186.86:/home/ec2-user/"
+                        sh "scp docker-compose.yaml ec2-user@13.201.186.86:/home/ec2-user/"
                         sh "ssh -o StrictHostKeyChecking=no ec2-user@13.201.186.86 ${dockerComposeRunCommand}"
                     }
                 }
