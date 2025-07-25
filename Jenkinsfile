@@ -38,7 +38,16 @@ pipeline {
         stage('deploying the image to the docker hub') {
             steps {
                 script {
-                    deployImage(env.IMAGE_NAME)
+//                     deployImage(env.IMAGE_NAME)
+    def dockerComposeRunCommand = "docker-compose -f docker-compose.yaml up -d"
+    echo "deploying the code"
+
+    sshagent(['ec2-node-react']) {
+
+
+        sh "scp docker-compose.yml ec2-user@13.201.186.86:/home/ec2-user/"
+        sh "ssh -o StrictHostKeyChecking=no ec2-user@13.201.186.86 ${dockerComposeRunCommand}"
+
                 }
             }
         }
